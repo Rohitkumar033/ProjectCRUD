@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbCollegeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblStudentRecords">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="RollNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="ClassId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblTeachers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassId" Type="int" />
+          <Property Name="TeacherName" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK_tblStudentRecords_tblClass">
+          <End Role="tblClass" Type="Self.tblClass" Multiplicity="0..1" />
+          <End Role="tblStudentRecords" Type="Self.tblStudentRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblStudentRecords">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTeachers_tblClass">
+          <End Role="tblClass" Type="Self.tblClass" Multiplicity="0..1" />
+          <End Role="tblTeachers" Type="Self.tblTeachers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblTeachers">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbCollegeModelStoreContainer">
+          <EntitySet Name="tblClass" EntityType="Self.tblClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStudentRecords" EntityType="Self.tblStudentRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTeachers" EntityType="Self.tblTeachers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblStudentRecords_tblClass" Association="Self.FK_tblStudentRecords_tblClass">
+            <End Role="tblClass" EntitySet="tblClass" />
+            <End Role="tblStudentRecords" EntitySet="tblStudentRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTeachers_tblClass" Association="Self.FK_tblTeachers_tblClass">
+            <End Role="tblClass" EntitySet="tblClass" />
+            <End Role="tblTeachers" EntitySet="tblTeachers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbCollegeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbCollegeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblClasses" EntityType="dbCollegeModel.tblClass" />
+          <EntitySet Name="tblStudentRecords" EntityType="dbCollegeModel.tblStudentRecord" />
+          <EntitySet Name="tblTeachers" EntityType="dbCollegeModel.tblTeacher" />
+          <AssociationSet Name="FK_tblStudentRecords_tblClass" Association="dbCollegeModel.FK_tblStudentRecords_tblClass">
+            <End Role="tblClass" EntitySet="tblClasses" />
+            <End Role="tblStudentRecord" EntitySet="tblStudentRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTeachers_tblClass" Association="dbCollegeModel.FK_tblTeachers_tblClass">
+            <End Role="tblClass" EntitySet="tblClasses" />
+            <End Role="tblTeacher" EntitySet="tblTeachers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblStudentRecords" Relationship="dbCollegeModel.FK_tblStudentRecords_tblClass" FromRole="tblClass" ToRole="tblStudentRecord" />
+          <NavigationProperty Name="tblTeachers" Relationship="dbCollegeModel.FK_tblTeachers_tblClass" FromRole="tblClass" ToRole="tblTeacher" />
+        </EntityType>
+        <EntityType Name="tblStudentRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="RollNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="ClassId" Type="Int32" />
+          <NavigationProperty Name="tblClass" Relationship="dbCollegeModel.FK_tblStudentRecords_tblClass" FromRole="tblStudentRecord" ToRole="tblClass" />
+        </EntityType>
+        <EntityType Name="tblTeacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassId" Type="Int32" />
+          <Property Name="TeacherName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblClass" Relationship="dbCollegeModel.FK_tblTeachers_tblClass" FromRole="tblTeacher" ToRole="tblClass" />
+        </EntityType>
+        <Association Name="FK_tblStudentRecords_tblClass">
+          <End Type="dbCollegeModel.tblClass" Role="tblClass" Multiplicity="0..1" />
+          <End Type="dbCollegeModel.tblStudentRecord" Role="tblStudentRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblStudentRecord">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTeachers_tblClass">
+          <End Type="dbCollegeModel.tblClass" Role="tblClass" Multiplicity="0..1" />
+          <End Type="dbCollegeModel.tblTeacher" Role="tblTeacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblTeacher">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbCollegeModelStoreContainer" CdmEntityContainer="dbCollegeEntities">
+          <EntitySetMapping Name="tblClasses">
+            <EntityTypeMapping TypeName="dbCollegeModel.tblClass">
+              <MappingFragment StoreEntitySet="tblClass">
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStudentRecords">
+            <EntityTypeMapping TypeName="dbCollegeModel.tblStudentRecord">
+              <MappingFragment StoreEntitySet="tblStudentRecords">
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RollNo" ColumnName="RollNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTeachers">
+            <EntityTypeMapping TypeName="dbCollegeModel.tblTeacher">
+              <MappingFragment StoreEntitySet="tblTeachers">
+                <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
